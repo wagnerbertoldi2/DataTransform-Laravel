@@ -1,0 +1,220 @@
+{
+    "info": {
+        "_postman_id": "d1a2b3c4-e5f6-7890-abcd-ef1234567890",
+        "name": "DataTransform Laravel API",
+        "description": "Endpoints para processamento, transformação e sincronização de dados de produtos e preços.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "type": "string"
+        }
+    ],
+    "item": [
+        {
+            "name": "Sincronização",
+            "description": "Endpoints de sincronização de dados via Views SQL.",
+            "item": [
+                {
+                    "name": "Sincronizar Produtos",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/sincronizar/produtos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "sincronizar",
+                                "produtos"
+                            ]
+                        },
+                        "description": "Consome a view `view_produtos`, normaliza e sincroniza os dados de `produtos_base` para `produto_insercao`."
+                    },
+                    "response": [
+                        {
+                            "name": "Sucesso",
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n    \"mensagem\": \"Sincronização de produtos concluída.\",\n    \"inseridos\": 10,\n    \"atualizados\": 0,\n    \"removidos\": 0\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Sincronizar Preços",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/sincronizar/precos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "sincronizar",
+                                "precos"
+                            ]
+                        },
+                        "description": "Consome a view `view_precos`, normaliza e sincroniza os dados de `precos_base` para `preco_insercao`. Execute a sincronização de produtos antes."
+                    },
+                    "response": [
+                        {
+                            "name": "Sucesso",
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n    \"mensagem\": \"Sincronização de preços concluída.\",\n    \"inseridos\": 10,\n    \"atualizados\": 0,\n    \"removidos\": 0\n}"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Consulta",
+            "description": "Endpoints de listagem dos dados sincronizados.",
+            "item": [
+                {
+                    "name": "Listar Produtos com Preços (Paginado)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/produtos-precos?per_page=5&page=1",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "produtos-precos"
+                            ],
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "5",
+                                    "description": "Itens por página (padrão: 15)"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "1",
+                                    "description": "Página atual (padrão: 1)"
+                                }
+                            ]
+                        },
+                        "description": "Retorna os produtos sincronizados com seus respectivos preços, de forma paginada."
+                    },
+                    "response": [
+                        {
+                            "name": "Sucesso",
+                            "status": "OK",
+                            "code": 200,
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "body": "{\n    \"current_page\": 1,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"codigo\": \"PRD001\",\n            \"nome\": \"Teclado Mecânico RGB\",\n            \"categoria\": \"PERIFERICOS\",\n            \"subcategoria\": \"TECLADOS\",\n            \"descricao\": \"Teclado com iluminação RGB e switches azuis\",\n            \"fabricante\": \"HyperTech\",\n            \"modelo\": \"HT-KEY-RGB\",\n            \"cor\": \"Preto\",\n            \"peso_kg\": \"1.200\",\n            \"largura_cm\": \"45.00\",\n            \"altura_cm\": \"5.00\",\n            \"profundidade_cm\": \"15.00\",\n            \"unidade\": \"UN\",\n            \"data_cadastro\": \"2025-10-10\",\n            \"precos\": [\n                {\n                    \"id\": 1,\n                    \"codigo_produto\": \"PRD001\",\n                    \"valor\": \"499.90\",\n                    \"moeda\": \"BRL\",\n                    \"desconto_percentual\": \"5.00\",\n                    \"acrescimo_percentual\": null,\n                    \"valor_promocional\": \"474.90\",\n                    \"dt_inicio_promo\": \"2025-10-10\",\n                    \"dt_fim_promo\": \"2025-10-20\",\n                    \"dt_atualizacao\": \"2025-10-15\",\n                    \"origem\": \"SISTEMA ERP\",\n                    \"tipo_cliente\": \"VAREJO\",\n                    \"vendedor_responsavel\": \"Marcos Silva\",\n                    \"observacao\": \"Produto em destaque\",\n                    \"status\": \"ativo\"\n                }\n            ]\n        }\n    ],\n    \"last_page\": 2,\n    \"per_page\": 5,\n    \"total\": 10\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "Listar Produtos - Página 2",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/produtos-precos?per_page=5&page=2",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "produtos-precos"
+                            ],
+                            "query": [
+                                {
+                                    "key": "per_page",
+                                    "value": "5"
+                                },
+                                {
+                                    "key": "page",
+                                    "value": "2"
+                                }
+                            ]
+                        },
+                        "description": "Exemplo de navegação para a página 2."
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Listar Produtos - Sem Paginação Custom",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/produtos-precos",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "api",
+                                "produtos-precos"
+                            ]
+                        },
+                        "description": "Retorna com paginação padrão (15 itens por página)."
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
