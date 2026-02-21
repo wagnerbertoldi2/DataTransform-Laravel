@@ -7,7 +7,7 @@ cd /var/www/html
 # 1. Instala dependências se o autoloader não existir
 if [ ! -f "vendor/autoload.php" ]; then
     echo "Dependências não encontradas. Instalando..."
-    composer install --no-interaction --no-dev --optimize-autoloader
+    composer install --no-interaction --optimize-autoloader
 fi
 
 # 2. Garante que o arquivo .env existe

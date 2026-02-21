@@ -121,7 +121,7 @@ Ao finalizar, a API estará disponível em `http://localhost:8000`.
 ### Executando os testes
 
 ```bash
-docker compose exec datatransform_app php artisan test
+docker compose exec app php artisan test
 ```
 
 ### Parando o ambiente
