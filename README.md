@@ -138,11 +138,11 @@ Após a instalação, os dados base já estarão carregados no banco. Para sincr
 
 ```bash
 # 1. Sincronizar produtos (executar primeiro)
-curl -X POST http://localhost:8000/api/sincronizar/produtos
+curl -X POST 'http://localhost:8000/api/sincronizar/produtos'
 
 # 2. Sincronizar preços
-curl -X POST http://localhost:8000/api/sincronizar/precos
+curl -X POST 'http://localhost:8000/api/sincronizar/precos'
 
 # 3. Consultar produtos com preços (paginado)
-curl http://localhost:8000/api/produtos-precos?per_page=5&page=1
+curl 'http://localhost:8000/api/produtos-precos?per_page=5&page=1'
 ```
